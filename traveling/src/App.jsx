@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "./App.css";
+import { Container } from "react-bootstrap";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LoginPage from "./Components/LoginPage";
+import RegisterPage from "./Components/RegisterPage";
+import MyNavbar from "./Components/MyNavbar";
+import PagError from "./Components/PagError";
+import Home from "./Components/Home";
+import MyFooter from "./Components/MyFooter";
+import AuthProvider from "./Components/AuthProvider";
+import TripsPage from "./Components/TripsPage";
+import TripDetailsPage from "./Components/TripDetailsPage";
+import BookingSuccessPage from "./Components/BookingSuccessPage";
+import EditTripPage from "./Components/EditTripPage";
+import CreateTripPage from "./Components/CreateTripPage";
+import MyBookingsPage from "./Components/MyBookingsPage";
+import ManageBookingsPage from "./Components/ManageBookingsPage";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
 
-export default App
+function AppContent() {
+  return (
+    <>
+      <MyNavbar />
+      <Container>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<PagError />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/trips" element={<TripsPage />} />
+          <Route path="/trips/:id" element={<TripDetailsPage />} />
+          <Route path="/edit-trip/:id" element={<EditTripPage />} />
+          <Route path="/create-trip" element={<CreateTripPage />} />
+          <Route path="/booking-success" element={<BookingSuccessPage />} />
+          <Route path="/bookings" element={<MyBookingsPage />} />
+          <Route path="/admin/bookings" element={<ManageBookingsPage />} />
+        </Routes>
+      </Container>
+      <MyFooter />
+    </>
+  );
+}
+
+export default App;
